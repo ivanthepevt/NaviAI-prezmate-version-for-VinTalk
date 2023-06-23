@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Slide show</title>
+  <style>
+    body{
+      background: url(default/1.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    #subtitle {
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      font-family: "Montserrat", sans-serif;
+      font-size: 5vh;
+      text-align: center;
+      position: fixed;
+      bottom: 2.5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75%;
+      max-width: 75%;
+      word-wrap: break-word;
+    }
+
+
+  </style>
+</head>
+<body>
+  <p id = "subtitle">Subtitle by NaviAI</p>
+
+  <script>
+    // Create a BroadcastChannel
+    const channel = new BroadcastChannel('my_channel');
+    const displaySub = document.getElementById("subtitle")
+    // Listen for messages from the other tab
+    channel.onmessage = function(event) {
+      var message = event.data;
+      console.log('Received message: ' + message.content);
+      if (message.type === "sub")
+        displaySub.innerHTML = message.content;
+      else if (message.type === "slide")
+        document.body.style.backgroundImage = "url('" + message.content + "')";
+    };
+  </script>
+</body>
+</html>
